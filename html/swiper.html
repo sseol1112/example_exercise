@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/example.js"></script>
+    <title>swiper</title>
+</head>
+<body>
+    <div class="wrap">
+        <div class="swiper-container mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">1</div>
+                <div class="swiper-slide">2</div>
+                <div class="swiper-slide">3</div>
+                <div class="swiper-slide">4</div>
+                <div class="swiper-slide">5</div>
+                <div class="swiper-slide">6</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var swiper1 = new Swiper('.mySwiper', {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+</script>
+</html>
