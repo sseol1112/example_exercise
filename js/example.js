@@ -45,14 +45,14 @@
                     case "cancel":
                         return false;
                     case "negative":
-                        self.message.innerHTML = "Come again anytime if you're possible.";
+                        self.message.innerHTML = "당신이 가능할때 언제든지 저에게 말씀해 주세요.";
                         break;
                     case "postive":
                         self.dialog.returnValue = self.typeName.value;
                         if (self.dialog.returnValue) {
-                            self.message.innerHTML = `<p class='username'>Hello, ${self.dialog.returnValue} :)</p>`;
+                            self.message.innerHTML = `<p class='username'>안녕하세요, ${self.dialog.returnValue}님 :)</p>`;
                         } else {
-                            self.message.innerHTML = "Are you really have no name? If you are not, you don't want to tell me your name?";
+                            self.message.innerHTML = "당신은 이름을 가지고 있지 않나요? 만약 그게 아니라면, 당신의 이름을 저에게 말해주기를 원하지 않나요?";
                         }
                         break;
                 }
