@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/style.css">
+  <script type="text/javascript" src="../js/example.js"></script>
+  <title>Dialog Example</title> 
+</head>
+<body>
+  <button id="btnOpen" aria-haspopup="dialog">modal 레이어 열기</button>
+  <p id="message" aria-live="assertive"></p>
+  <dialog id="myDialog" aria-labelledby="wyn_title" aria-describedby="wyn_desc">
+    <form method="dialog">
+      <div class="header"><strong id="wyn_title" class="tit">title</strong><button id="btnClose" aria-label="close" value="cancel">X</button></div>
+      <div class="body">
+        <p id="wyn_desc">could you tell me your name?</p>
+        <div>
+          <label for="typeName">
+            My name is
+            <input type="text" name="typeName" id="typeName" autofocus>
+          </label>
+        </div>
+      </div>
+      <div class="bottom">
+        <button id="negative" name="negative" type="submit" value="negative">나중에 하기</button>
+        <button class="default" name="postive" type="submit" id="postive" value="postive">완료</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>
