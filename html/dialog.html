@@ -9,8 +9,15 @@
   <title>Dialog Example</title> 
 </head>
 <body>
-  <button id="btnOpen" aria-haspopup="dialog">dialog 모달 레이어 열기</button>
-  <p id="message" aria-live="assertive"></p>
+  <header>
+    <a class="btn_index" href="../index.html">이전으로 돌아가기</a>
+  </header>
+  <div class="contents">
+    <button id="btnOpen" aria-haspopup="dialog">dialog 모달 레이어 열기</button>
+    <p id="message" aria-live="assertive"></p>    
+  </div>
+
+  <!-- dialog는 상위 따로 태그 존재하면 안됨, 별개의 태그로 사용해야함 -->
   <dialog id="myDialog" aria-labelledby="wyn_title" aria-describedby="wyn_desc">
     <form method="dialog">
       <div class="header"><strong id="wyn_title" class="tit">Dear. guest</strong><button id="btnClose" aria-label="close" value="cancel">X</button></div> <!--제목 표시줄과 닫기 버튼입니다.-->

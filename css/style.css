@@ -1,3 +1,53 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+a {
+    color: #000;
+    text-decoration: none;
+}
+ul {
+    list-style: none;
+}
+.wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+.wrap .contents {
+    padding: 0 1em;
+}
+.wrap header {
+    padding: 0.5em;
+}
+.wrap header .page_title {
+    padding-bottom: 5px;
+}
+.contents section {
+    margin-top: 40px;
+}
+.contents section .title {
+    margin-bottom: 10px;
+}
+.contents .item_list > li:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+.contents .item_list > li a {
+    display: block;
+    padding: 0.5em;
+}
+.contents .item_list > li a:hover {
+    background: skyblue;
+    color: #fff;
+}
+header {
+    margin: 1em;
+}
+header .btn_index {
+    text-align: left;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+}
 #btnOpen {
     border: 0;
     background: #ccc;
