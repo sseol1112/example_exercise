@@ -38,59 +38,89 @@
         self.mainContent = document.querySelector(".main");
         self.btnSelect = document.querySelector(".btn_select");
         self.btnReserve = document.querySelector(".btn_reserve");
+        self.seatWrap = document.querySelector(".seat_wrap");
+
+        self.movieItemLeft = document.querySelector(".left_content");
+        self.movieItemRight = document.querySelector(".right_content");
+        self.movieSelectItem = document.querySelector(".movie_select_item");
+
+        self.movieInfoList = document.querySelectorAll(".movie_info select option");
+
+        self.imgHtml = "";
+        self.infoHtml = "";
+        self.selectHtml = "";
+        self.movieSeats = "";
+        self.movieData = "";
     }
-    function selectTicket() {
+
+    function apiTicket() {
         // 영화 데이터 fetch로 불러옴
         fetch('../js/movie.json')
         .then(response => response.json())
         .then(data => {
             const movies = data.movies;
-            const movieItemLeft = document.querySelector(".left_content");
-            const movieItemRight = document.querySelector(".right_content");
-            const movieSelectItem = document.querySelector(".movie_select_item");
-            let imgHtml = "";
-            let infoHtml = "";
-            let selectHtml = "";
-            
-            movies.forEach((movie, index) => {
-                const movieTitle = movie.title;
-                const movieTimes = movie.showtimes;
-                const movieImg = movie.img;
-                const movieSeats = movie.seats;
-                
-                selectHtml += `<option value="${movieTitle}" data-index="${index}">${movieTitle}</option>`;
-
-                imgHtml += `
-                        <div class="movie_select" data-index="${index}">
-                            <div class="movie_item" >
-                                <img src="${movieImg}" alt="${movieTitle}">                    
-                            </div>
-                            <div class="movie_info" data-index="${index}">
-                            <section class="info">                
-                                <select>
-                                    <option value="">상영 시간 선택</option>
-                                    <option value="${movieTimes[0]}">${movieTimes[0]}</option>
-                                    <option value="${movieTimes[1]}">${movieTimes[1]}</option>
-                                    <option value="${movieTimes[2]}">${movieTimes[2]}</option>
-                                </select>
-                            </section>
-                            </div>
-                        </div>`;        
-
-                infoHtml += `
-                    <section class="seats">
-                        <div class="seats_item"></div>
-                    </section>`;
-            })
-            movieItemLeft.innerHTML = imgHtml;
-            movieItemRight.innerHTML = infoHtml;
-            movieSelectItem.innerHTML = selectHtml;
-            
-            self.btnSelect.style.display = "none";
-            self.btnReserve.classList.add("active");
-            self.mainContent.classList.add("active");
+            self.movieData = movies; 
         })
+    }
+    function selectTicket() {        
+        apiTicket();
+        setTimeout(() => {
+            self.movieData.forEach((movie, index) => {
+            const movieTitle = movie.title;
+            const movieTimes = movie.showtimes;
+            const movieImg = movie.img;            
+            
+            self.selectHtml += `<option value="${movieTitle}" data-index="${index}">${movieTitle}</option>`;
+
+            self.imgHtml += `
+                <div class="movie_select" data-index="${index}">
+                    <div class="movie_item" >
+                        <img src="${movieImg}" alt="${movieTitle}">                    
+                    </div>
+                    <div class="movie_info" data-index="${index}">
+                    <section class="info">                
+                        <select>
+                            <option value="">상영 시간 선택</option>
+                            <option value="${movieTimes[0]}">${movieTimes[0]}</option>
+                            <option value="${movieTimes[1]}">${movieTimes[1]}</option>
+                            <option value="${movieTimes[2]}">${movieTimes[2]}</option>
+                        </select>
+                    </section>
+                    </div>
+                </div>`;                     
+            })
+
+            self.movieItemLeft.innerHTML = self.imgHtml;
+            self.movieSelectItem.innerHTML = self.selectHtml;
+
+            self.btnSelect.style.display = "none";        
+            self.btnReserve.classList.add("active");
+            self.mainContent.classList.add("active");   
+        }, 500);    
         
+    }
+
+    function reserveTicket() {
+        
+        if(self.movieInfoList.prop("selected") == false) {
+            alert("영화 시간을 선택해주세요.");
+            return false;
+        } else {
+            self.movieItemLeft.style.display = "none";            
+            self.movieItemRight.style.display = "block";
+            apiTicket();
+            setTimeout(() => {
+                self.movieItemLeft.style.display = "none";
+                self.movieData.forEach((movie, index) => {
+                    self.movieSeats = movie.seats;
+                    for(var i = 0; i < self.movieSeats; i++) {
+                        self.infoHtml += `<span class="seat_item" data-index="${i}">${i+1}</span>`;
+                        self.seatWrap.innerHTML = self.infoHtml;
+                    }                
+                })            
+                
+            },500);
+        }
         
     }
     window.onload = function() {

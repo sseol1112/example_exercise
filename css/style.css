@@ -12,6 +12,12 @@ ul {
   list-style: none;
 }
 
+select {
+  border: 0;
+  border-bottom: 1px solid #555;
+  padding: 0.5em 0;
+}
+
 /* common */
 .blind {
   position: absolute;
@@ -102,25 +108,36 @@ dialog {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
 dialog form {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 dialog form > * {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   padding: 0.5em;
 }
 
 dialog .header {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
 dialog .header > .tit {
-  flex: 1;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 dialog .body {
@@ -128,12 +145,18 @@ dialog .body {
 }
 
 dialog .bottom {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: end;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
 }
 
 dialog button {
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   border: none;
   background-color: transparent;
   font-weight: bold;
@@ -145,6 +168,10 @@ dialog #negative.default {
 
 dialog #postive.default {
   color: #2264ff;
+}
+
+dialog:-internal-dialog-in-top-layer::-webkit-backdrop {
+  background: rgba(0, 0, 0, 0.5);
 }
 
 dialog:-internal-dialog-in-top-layer::backdrop {
@@ -160,35 +187,53 @@ header .logo {
 .main {
   display: none;
 }
+
 .main.active {
   display: block;
 }
+
 .main .top_content {
   padding: 0 10px 12px;
 }
+
 .main .top_content .movie_select_item {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
   text-align: center;
   font-size: 18px;
-  padding: 4px 0;
 }
+
 .main .content_box {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
+
 .main .left_content .movie_select {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
+
 .main .left_content .movie_item {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
+
 .main .left_content .movie_item img {
   width: 10rem;
   height: auto;
 }
+
 .main .right_content .seat_wrap {
   width: 10rem;
   min-height: 168px;
@@ -196,15 +241,20 @@ header .logo {
 }
 
 .btn_wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   margin-top: 12px;
 }
+
 .btn_wrap .btn_reserve {
   display: none;
 }
+
 .btn_wrap .btn_reserve.active {
   display: block;
 }
-
 /*# sourceMappingURL=style.css.map */
