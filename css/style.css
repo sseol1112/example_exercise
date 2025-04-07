@@ -1,104 +1,210 @@
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
+
 a {
-    color: #000;
-    text-decoration: none;
+  color: #000;
+  text-decoration: none;
 }
+
 ul {
-    list-style: none;
+  list-style: none;
 }
+
+/* common */
+.blind {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  margin: -1px;
+}
+
 .wrap {
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
 }
+
 .wrap .contents {
-    padding: 0 1em;
+  padding: 0 1em;
 }
+
 .wrap header {
-    padding: 0.5em;
+  padding: 0.5em;
 }
+
 .wrap header .page_title {
-    padding-bottom: 5px;
+  padding-bottom: 5px;
 }
+
 .contents section {
-    margin-top: 40px;
+  margin-top: 40px;
 }
+
 .contents section .title {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
+
 .contents .item_list > li:not(:last-child) {
-    border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
+
 .contents .item_list > li a {
-    display: block;
-    padding: 0.5em;
+  display: block;
+  padding: 0.5em;
 }
+
 .contents .item_list > li a:hover {
-    background: skyblue;
-    color: #fff;
+  background: skyblue;
+  color: #fff;
 }
+
 header {
-    margin: 1em;
+  margin: 1em;
 }
+
 header .btn_index {
-    text-align: left;
-    border: 1px solid #ccc;
-    padding: 5px 10px;
+  text-align: left;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
 }
+
+.btn {
+  display: block;
+  padding: 0.5em 1em;
+  background: #2264ff;
+  border: 0;
+  color: #fff;
+  border-radius: 16px;
+  font-size: 16px;
+  line-height: 21px;
+  text-align: center;
+  cursor: pointer;
+}
+
 #btnOpen {
-    border: 0;
-    background: #ccc;
-    border-radius: 16px;
-    padding: 0.5em 1em;
-    color: #fff;
-    font-size: 16px;
-    line-height: 21px;
+  border: 0;
+  background: #ccc;
+  border-radius: 16px;
+  padding: 0.5em 1em;
+  color: #fff;
+  font-size: 16px;
+  line-height: 21px;
 }
+
 dialog {
-    border: none;
-    padding: 0;
+  border: none;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
+
 dialog form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
+
 dialog form > * {
-    box-sizing: border-box;
-    padding: 0.5em;
+  box-sizing: border-box;
+  padding: 0.5em;
 }
 
 dialog .header {
-    display: flex;
+  display: flex;
 }
+
 dialog .header > .tit {
-    flex: 1;
+  flex: 1;
 }
+
 dialog .body {
-    min-height: 150px;
+  min-height: 150px;
 }
 
 dialog .bottom {
-    display: flex;
-    justify-content: end;
+  display: flex;
+  justify-content: end;
 }
 
 dialog button {
-    appearance: none;
-    border: none;
-    background-color: transparent;
-    font-weight: bold;
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  font-weight: bold;
 }
+
 dialog #negative.default {
-    color: red;
+  color: red;
 }
 
 dialog #postive.default {
-    color: #2264ff;
+  color: #2264ff;
 }
 
 dialog:-internal-dialog-in-top-layer::backdrop {
-    background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5);
 }
+
+/* movie */
+header .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.main {
+  display: none;
+}
+.main.active {
+  display: block;
+}
+.main .top_content {
+  padding: 0 10px 12px;
+}
+.main .top_content .movie_select_item {
+  display: flex;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  padding: 4px 0;
+}
+.main .content_box {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.main .left_content .movie_select {
+  display: flex;
+}
+.main .left_content .movie_item {
+  display: flex;
+  justify-content: space-between;
+}
+.main .left_content .movie_item img {
+  width: 10rem;
+  height: auto;
+}
+.main .right_content .seat_wrap {
+  width: 10rem;
+  min-height: 168px;
+  border: 1px solid #ccc;
+}
+
+.btn_wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+.btn_wrap .btn_reserve {
+  display: none;
+}
+.btn_wrap .btn_reserve.active {
+  display: block;
+}
+
+/*# sourceMappingURL=style.css.map */

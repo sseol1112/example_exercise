@@ -1,0 +1,34 @@
+{
+    "movies" : [
+        {
+            "title": "영화1",
+            "showtimes": ["10:00", "12:00", "14:00"],
+            "img": "../../image/dummy_img.png",
+            "seats": 100
+        },
+        {
+            "title": "영화2",
+            "showtimes": ["11:00", "13:00", "15:00"],
+            "img": "../../image/dummy_img.png",
+            "seats": 50
+        },
+        {
+            "title": "영화3",
+            "showtimes": ["09:00", "11:30", "14:30"],
+            "img": "../../image/dummy_img.png",
+            "seats": 75
+        },
+        {
+            "title": "영화4",
+            "showtimes": ["10:30", "13:30", "16:00"],
+            "img": "../../image/dummy_img.png",
+            "seats": 120
+        },
+        {
+            "title": "영화5",
+            "showtimes": ["12:00", "14:30", "17:00"],
+            "img": "../../image/dummy_img.png",
+            "seats": 80
+        }
+    ]
+}

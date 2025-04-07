@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/swiper.min.css"> 
+    <link rel="stylesheet" href="../css/style.css">
+    <script type="text/javascript" src="../js/swiper.min.js"></script>
+    <script type="text/javascript" src="../js/example.js"></script>
+    <title>영화 예매 시스템</title>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <h1 class="logo"></h1>            
+        </header>
+        <div class="main">
+            <div class="top_content">
+                <select class="movie_select_item">                    
+                </select>
+            </div>        
+            <div class="content_box">                
+                <section class="left_content"></section>
+                <section class="right_content"><div class="seat_wrap"></div></section>
+            </div>            
+        </div>
+        <div class="btn_wrap">
+            <button class="btn btn_select" onclick="javascript:selectTicket();">영화 시간표 보기</button>
+            <button class="btn btn_reserve" onclick="javascript:reserveTicket();">영화 예매하기</button>
+        </div>    
+    </div>
+</body>
+</html>
+<script>
+    function setting() {
+        const self = this;
+        self.mainContent = document.querySelector(".main");
+        self.btnSelect = document.querySelector(".btn_select");
+        self.btnReserve = document.querySelector(".btn_reserve");
+    }
+    function selectTicket() {
+        // 영화 데이터 fetch로 불러옴
+        fetch('../js/movie.json')
+        .then(response => response.json())
+        .then(data => {
+            const movies = data.movies;
+            const movieItemLeft = document.querySelector(".left_content");
+            const movieItemRight = document.querySelector(".right_content");
+            const movieSelectItem = document.querySelector(".movie_select_item");
+            let imgHtml = "";
+            let infoHtml = "";
+            let selectHtml = "";
+            
+            movies.forEach((movie, index) => {
+                const movieTitle = movie.title;
+                const movieTimes = movie.showtimes;
+                const movieImg = movie.img;
+                const movieSeats = movie.seats;
+                
+                selectHtml += `<option value="${movieTitle}" data-index="${index}">${movieTitle}</option>`;
+
+                imgHtml += `
+                        <div class="movie_select" data-index="${index}">
+                            <div class="movie_item" >
+                                <img src="${movieImg}" alt="${movieTitle}">                    
+                            </div>
+                            <div class="movie_info" data-index="${index}">
+                            <section class="info">                
+                                <select>
+                                    <option value="">상영 시간 선택</option>
+                                    <option value="${movieTimes[0]}">${movieTimes[0]}</option>
+                                    <option value="${movieTimes[1]}">${movieTimes[1]}</option>
+                                    <option value="${movieTimes[2]}">${movieTimes[2]}</option>
+                                </select>
+                            </section>
+                            </div>
+                        </div>`;        
+
+                infoHtml += `
+                    <section class="seats">
+                        <div class="seats_item"></div>
+                    </section>`;
+            })
+            movieItemLeft.innerHTML = imgHtml;
+            movieItemRight.innerHTML = infoHtml;
+            movieSelectItem.innerHTML = selectHtml;
+            
+            self.btnSelect.style.display = "none";
+            self.btnReserve.classList.add("active");
+            self.mainContent.classList.add("active");
+        })
+        
+        
+    }
+    window.onload = function() {
+        setting();
+    }
+</script>
