@@ -108,36 +108,25 @@ dialog {
   position: absolute;
   top: 50%;
   left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 dialog form {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
 }
 
 dialog form > * {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   padding: 0.5em;
 }
 
 dialog .header {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 
 dialog .header > .tit {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  flex: 1;
 }
 
 dialog .body {
@@ -145,18 +134,12 @@ dialog .body {
 }
 
 dialog .bottom {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: end;
+  justify-content: end;
 }
 
 dialog button {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+  appearance: none;
   border: none;
   background-color: transparent;
   font-weight: bold;
@@ -168,10 +151,6 @@ dialog #negative.default {
 
 dialog #postive.default {
   color: #2264ff;
-}
-
-dialog:-internal-dialog-in-top-layer::-webkit-backdrop {
-  background: rgba(0, 0, 0, 0.5);
 }
 
 dialog:-internal-dialog-in-top-layer::backdrop {
@@ -187,74 +166,90 @@ header .logo {
 .main {
   display: none;
 }
-
 .main.active {
   display: block;
 }
-
 .main .top_content {
   padding: 0 10px 12px;
 }
-
 .main .top_content .movie_select_item {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   width: 100%;
   text-align: center;
   font-size: 18px;
 }
-
 .main .content_box {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  display: none;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.625rem;
 }
-
 .main .left_content .movie_select {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
-
 .main .left_content .movie_item {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
 }
-
 .main .left_content .movie_item img {
   width: 10rem;
   height: auto;
 }
-
+.main .right_content {
+  display: none;
+}
+.main .right_content .seat_category {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  gap: 0.25rem;
+  padding-bottom: 0.625rem;
+}
+.main .right_content .seat_category li {
+  width: calc(20% - 0.5rem);
+}
 .main .right_content .seat_wrap {
-  width: 10rem;
+  width: 16rem;
   min-height: 168px;
   border: 1px solid #ccc;
+  border-radius: 20px;
+  text-align: center;
+}
+.main .right_content .seat_wrap .seat {
+  padding: 0.5em;
+  display: inline-flex;
+  flex-direction: column;
+}
+.main .right_content .seat_wrap .seat_item {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid #000;
+  padding: 0.5em;
+}
+.main .right_content .seat_wrap .seat_item:disabled {
+  background: #555;
 }
 
 .btn_wrap {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
   margin-top: 12px;
 }
-
+.btn_wrap .btn:not(:first-child) {
+  margin-left: 0.625rem;
+}
 .btn_wrap .btn_reserve {
   display: none;
 }
-
 .btn_wrap .btn_reserve.active {
   display: block;
 }
+.btn_wrap .btn_submit {
+  display: none;
+}
+.btn_wrap .btn_submit.active {
+  display: block;
+}
+
 /*# sourceMappingURL=style.css.map */

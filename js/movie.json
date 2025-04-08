@@ -1,34 +1,39 @@
 {
     "movies" : [
         {
-            "title": "영화1",
+            "title": "승부",
             "showtimes": ["10:00", "12:00", "14:00"],
             "img": "../../image/dummy_img.png",
-            "seats": 100
+            "seats": 95,
+            "total_seats": 100
         },
         {
-            "title": "영화2",
+            "title": "미키 17",
             "showtimes": ["11:00", "13:00", "15:00"],
             "img": "../../image/dummy_img.png",
-            "seats": 50
+            "seats": 50,
+            "total_seats": 100
         },
         {
-            "title": "영화3",
+            "title": "스트리밍",
             "showtimes": ["09:00", "11:30", "14:30"],
             "img": "../../image/dummy_img.png",
-            "seats": 75
+            "seats": 75,
+            "total_seats": 100
         },
         {
-            "title": "영화4",
+            "title": "폭삭 속았수다",
             "showtimes": ["10:30", "13:30", "16:00"],
             "img": "../../image/dummy_img.png",
-            "seats": 120
+            "seats": 10,
+            "total_seats": 100
         },
         {
-            "title": "영화5",
+            "title": "진격의거인 극장판",
             "showtimes": ["12:00", "14:30", "17:00"],
             "img": "../../image/dummy_img.png",
-            "seats": 80
+            "seats": 80,
+            "total_seats": 100
         }
     ]
 }

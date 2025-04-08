@@ -160,8 +160,11 @@ header {
         }
     }
     .content_box {
-        display: flex;             
+        display: none;
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.625rem;;
     }
     .left_content {
         .movie_select {
@@ -181,22 +184,58 @@ header {
         }
     }
     .right_content {
-        .seat_wrap {
-            width: 10rem;
-            min-height: 168px;
-            border: 1px solid #ccc;
+        display: none;         
+            .seat_category {
+                display: flex;
+                justify-content: center;
+                text-align: center;
+                gap: 0.25rem;
+                padding-bottom: 0.625rem;
+                li {
+                    width: calc((100% / 5) - 0.5rem);
+                }
+            }   
+            .seat_wrap {
+                width: 16rem;
+                min-height: 168px;
+                border: 1px solid #ccc;
+                border-radius: 20px;
+                text-align: center;
+                .seat {
+                padding: 0.5em;
+                display: inline-flex;
+                flex-direction: column;
+                &_item {
+                    width: 2rem;
+                    height: 2rem;
+                    border: 1px solid #000;
+                    padding: 0.5em;
+                    &:disabled {
+                        background: #555;
+                    }
+                }
+            }
         }
-    }    
+    }
 }
 .btn_wrap {
     display: flex;
     justify-content: center;
-    margin-top: 12px;        
+    margin-top: 12px;
+    .btn:not(:first-child) {
+        margin-left: 0.625rem;
+    }
     .btn_reserve {
         display: none;
         &.active {
             display: block;
         }
         
+    }
+    .btn_submit {
+        display: none;
+        &.active {
+            display: block;
+        }
     }
 }
