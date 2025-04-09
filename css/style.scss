@@ -11,9 +11,7 @@ ul {
 }
 
 select {
-    border: 0;
-    border-bottom: 1px solid #555;
-    padding: 0.5em 0;
+    border: 0;    
 }
 
 /* common */
@@ -68,7 +66,7 @@ header .btn_index {
 .btn {
     display: block;
     padding: 0.5em 1em;
-    background: #2264ff;
+    background: gray;
     border: 0;
     color: #fff;
     border-radius: 16px;
@@ -150,6 +148,12 @@ header {
     &.active {
         display: block;
     }
+    .movie_form {
+        select {
+            border-bottom: 1px solid #555;
+            padding: 0.5em 0;
+        }
+    }
     .top_content {
         padding:0 10px 12px;
         .movie_select_item {
@@ -169,15 +173,23 @@ header {
     .left_content {
         .movie_select {
             display: flex;
+            flex-direction: column-reverse;
+            gap: 1rem;
             &:not(:first-child) {
                 // display: none;
+            }
+        }
+        .movie_info {
+            select {
+                width: 100%;
             }
         }
         .movie_item {
             display: flex;
             justify-content: space-between;
+            border: 1px solid #ccc;            
             img {
-                width: 10rem;
+                width: 20rem;
                 height: auto;
             }
 
@@ -232,10 +244,81 @@ header {
         }
         
     }
-    .btn_submit {
+    .btn_submit_wrap {
         display: none;
         &.active {
-            display: block;
+            display: flex;
+        }
+    }
+}
+
+.layer_pop {
+    position: relative;
+    &.active {
+        .dim {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+    }
+    .modal_layer {
+        position: fixed;
+        display: none;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 20;
+        background: #fff;
+        padding: 0 1rem;
+        min-width: 320px;
+        .pop {
+            &_header {
+                padding:1.5rem 0;
+                font-weight: 700;
+                border-bottom: 1px solid #ccc;
+                .title {
+                    font-size: 1.5rem;
+                }
+            }
+            &_body {
+                font-size: 1rem;
+                line-height: 1.25rem;
+                padding-top : 1rem;
+                p {
+                    margin-bottom: 0.5rem;
+                }
+            }
+            &_footer {
+                padding:1.25rem 0;
+                &:before {
+                    content : "";
+                    width: 100%;
+                    height: 1px;
+                    display: block;
+                    background: #ccc;
+                }
+                .btn {
+                    background: #fff;
+                    color: #000;
+                    border: 1px solid gray;
+                }
+                .btn_close {
+                    position: relative;
+                    padding: 0 1.125rem;
+                    &::after{
+                        content: "❌";
+                        display: block;
+                        width: 2.25rem;
+                        height: 2.25rem;              
+                        margin-top: 0.75rem;          
+                    }
+                }                
+            }
         }
     }
 }

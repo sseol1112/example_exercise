@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="../css/swiper.min.css"> 
     <link rel="stylesheet" href="../css/style.css">
     <script type="text/javascript" src="../js/swiper.min.js"></script>
-    <script type="text/javascript" src="../js/example.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
     <title>title</title>
 </head>
 <body>
     <div class="wrap">
         <header>
             <h1 class="logo"></h1>            
+            <p class="desc"></p>
         </header>
         <div class="main">
             <form class="movie_form" action="javascript:submitTicket();" method="get">
@@ -34,166 +35,218 @@
                     </section>
                 </div> 
                 <div class="btn_wrap">
-                    <button type="button" class="btn btn_select" onclick="javascript:selectTicket();">Search Timetable</button>
-                    <button type="button" class="btn btn_reserve" onclick="javascript:reserveTicket();">Reserve movie</button>
-                    <button type="submit" class="btn btn_submit">Submit</button>
+                    <button type="button" class="btn btn_select" onclick="selectTicket();">상영시간표 확인하기</button>
+                    <button type="button" class="btn btn_reserve" onclick="reserveTicket();">좌석 선택 하기</button>
+                    <div class="btn_submit_wrap">
+                        <button type="submit" class="btn btn_submit">예매 하기</button>
+                        <button type="button" class="btn btn_confirm" onclick="openPopup('confirmPopup');reserveDetail();">예매 내역 조회</button>
+                    </div>
                 </div>
             </form>           
         </div>        
     </div>
+    <div class="layer_pop" id="confirmPopup"> <!-- 예매 내역 조회 레이어팝업 -->
+        <div class="dim"></div>
+        <div class="modal_layer">
+            <div class="pop_header">
+                <h3 class="title">예매 내역 조회</h3>
+            </div>
+            <div class="pop_body">
+                <p>✔ 예매 내역을 확인해 주세요 👀</p>
+                <div class="reserve_detail">
+                    예매한 항목들 조회 영역
+                </div>
+            </div>
+            <div class="pop_footer">
+                <div class="btn_wrap">
+                    <button type="button" class="btn btn_update">변경하기</button>
+                    <button type="button" class="btn btn_close" onclick="closePopup('confirmPopup')"><span class="blind">닫기</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function setting() {
+            const self = this;
+            self.pageHeader = document.querySelector("header");
+            self.mainContent = document.querySelector(".main");
+            self.btnSelect = document.querySelector(".btn_select");
+            self.btnReserve = document.querySelector(".btn_reserve");
+            self.btnSubmitWrap = document.querySelector(".btn_submit_wrap");
+            self.seatWrap = document.querySelector(".seat_wrap");
+            self.movieItemLeft = document.querySelector(".left_content");
+            self.movieItemRight = document.querySelector(".right_content");
+            self.movieSelectItem = document.querySelector(".movie_select_item");
+            self.reserveDetailArea = document.querySelector(".reserve_detail");
+            
+            self.movieTitle = "";
+            self.movieTimes = "";
+            self.movieImg = "";
+            self.selectedTitle = "";
+            self.imgHtml = "";
+            self.infoHtml = "";
+            self.selectHtml = "";
+            self.movieSeats = "";
+            self.movieData = "";
+            self.totalSeats = "";
+        }
+
+        function bindEvent() {
+
+            // 수정 필요 -> 영화 selectbox 재선택시, 좌석 초기화 필요. 지금은 포스터만 초기화됨
+            self.movieSelectItem.addEventListener("change", function(){            
+                self.movieItemLeft.innerHTML = "";
+                self.pageHeader.querySelector(".desc").innerHTML = "";
+                self.movieItemRight.style.display = "none";
+                self.btnSelect.style.display = "block";
+                self.btnSubmitWrap.classList.remove("active");
+                self.btnReserve.classList.remove("active");
+            });
+        }
+
+        function apiTicket() {
+            // 영화 데이터 fetch로 불러옴
+            fetch('../js/movie.json')
+            .then(response => response.json())
+            .then(data => {
+                const movies = data.movies;
+                self.movieData = movies;
+            })
+        }
+        function settingMovie() {
+            apiTicket();
+            self.selectHtml += `<option value="" data-index="">영화 선택</option>`;
+            setTimeout(function(){
+                // console.log(self.movieData);
+                self.movieData.forEach((movie, index) => {
+                    // console.log(movie, index);
+                    const movieTitle = movie.title;                
+                    self.selectHtml += `<option value="${movieTitle}" data-index="${index}">${movieTitle}</option>`;
+                })            
+                self.mainContent.classList.add("active");
+                self.movieSelectItem.innerHTML = self.selectHtml;
+            },500)        
+        }
+        function selectTicket() {
+            apiTicket();    
+            setTimeout(() => {
+                self.selectedTitle = self.movieSelectItem.options[self.movieSelectItem.selectedIndex].value;
+                self.imgHtml = "";
+                self.seatWrap.innerHTML = self.imgHtml;
+                if (!!self.selectedTitle) {
+                    self.movieData.forEach((movie, index) => {
+                        self.movieTimes = movie.showtimes;
+                        self.movieImg = movie.img;
+                        self.movieTitle = movie.title;
+                        if(self.selectedTitle === self.movieTitle) {
+                            self.imgHtml += `
+                                <div class="movie_select" data-index="${index}">
+                                    <div class="movie_item">
+                                        <img src="${self.movieImg}" alt="${self.movieTitle}">
+                                    </div>
+                                    <div class="movie_info" data-index="${index}">
+                                        <section class="info">
+                                            <select>
+                                                <option name="item" value="">상영 시간 선택</option>
+                                                <option name="item" value="${self.movieTimes[0]}">${self.movieTimes[0]}</option>
+                                                <option name="item" value="${self.movieTimes[1]}">${self.movieTimes[1]}</option>
+                                                <option name="item" value="${self.movieTimes[2]}">${self.movieTimes[2]}</option>
+                                            </select>
+                                        </section>
+                                    </div>
+                                </div>`;
+                        }
+                    })
+                    document.querySelector(".content_box").style.display = "flex";
+                    self.movieItemLeft.innerHTML = self.imgHtml;
+                    self.btnSelect.style.display = "none";
+                    self.btnReserve.classList.add("active");
+                    self.mainContent.classList.add("active");
+                } else {
+                    alert ("영화를 선택해주세요");
+                }            
+            }, 500);
+            
+        }    
+
+        function reserveTicket() {
+            const seat = self.seatWrap.querySelectorAll(".seat")
+            self.movieInfoList = document.querySelectorAll(".movie_info select[name='item'] option");
+            self.selectedTitle = self.movieSelectItem.options[self.movieSelectItem.selectedIndex].value;
+                
+            apiTicket();
+            setTimeout(() => {
+                // self.movieItemLeft.style.display = "none";
+                self.infoHtml = "";
+                self.seatWrap.innerHTML = self.infoHtml;
+                self.movieData.forEach((movie, index) => {  
+                    self.movieTitle = movie.title;                                              
+                    if(self.selectedTitle === self.movieTitle) {
+                        self.totalSeats = movie.total_seats;
+                        self.movieSeats = movie.seats;
+                        for(var i = 0; i < self.totalSeats; i++) {
+                            if(i < self.movieSeats) {
+                                self.infoHtml += `<div class="seat"><input type="checkbox" name="${i + 1}" class="seat_item" /><span class="" data-index="${i}">${i+1}</span></div>`;
+                            } else {
+                                self.infoHtml += `<div class="seat disabled"><input type="checkbox" name="${i + 1}" class="seat_item" disabled/><span class="" data-index="${i}">${i+1}</span></div>`;
+                            }
+                        }
+                    }
+                })
+                self.pageHeader.querySelector(".desc").innerHTML = `"선택된 영화:" ${self.selectedTitle}, 좌석 : ${self.movieSeats},  총좌석 : ${self.totalSeats}`;
+                // console.log(`"선택된 영화:" ${self.selectedTitle}, 좌석 : ${self.movieSeats},  총좌석 : ${self.totalSeats}`);
+                self.movieItemRight.style.display = "block";
+                self.seatWrap.innerHTML = self.infoHtml;
+                self.btnReserve.classList.remove("active");
+                self.btnSubmitWrap.classList.add("active");
+            },500);
+        }
+
+        function reserveDetail() {
+            const reserveMovie = localStorage.getItem("selectedMovie");
+            const reserveSeats = localStorage.getItem("selectedSeats");
+            self.reserveDetailArea.innerHTML = `예약된 영화 : ${reserveMovie}, 좌석 : ${reserveSeats} 입니다.`;
+        }
+        function submitTicket() {
+            const seat = self.seatWrap.querySelectorAll(".seat_item:checked");
+            const selectedSeats = Array.from(seat).map(item => item.name);
+            const selectedMovie = self.movieSelectItem.options[self.movieSelectItem.selectedIndex].value;
+            
+            if(selectedSeats.length === 0) {
+                alert("좌석을 선택해주세요.");
+                return false;
+            } else {
+                alert(`"${selectedMovie}" 영화 / ${selectedSeats} 좌석이 예약되었습니다.`);
+                localStorage.setItem("selectedMovie", selectedMovie);
+                localStorage.setItem("selectedSeats", selectedSeats);
+                return true;
+            }
+        }
+
+        function openPopup (popupId) {
+            const popup = document.getElementById(popupId);
+
+            if (popup) {
+                popup.classList.add("active");
+                popup.querySelector(".modal_layer").style.display = "block";
+            }
+        }
+
+        function closePopup (popupId) {
+            const popup = document.getElementById(popupId);
+
+            if(popup) {
+                popup.classList.remove("active");
+                popup.querySelector(".modal_layer").style.display = "none";
+            }
+        }
+        
+        window.onload = function() {
+            setting();
+            bindEvent();
+            settingMovie();
+        }
+    </script>
 </body>
 </html>
-<script>
-    function setting() {
-        const self = this;
-        self.mainContent = document.querySelector(".main");
-        self.btnSelect = document.querySelector(".btn_select");
-        self.btnReserve = document.querySelector(".btn_reserve");
-        self.btnSubmit = document.querySelector(".btn_submit");
-        self.seatWrap = document.querySelector(".seat_wrap");
-        self.movieItemLeft = document.querySelector(".left_content");
-        self.movieItemRight = document.querySelector(".right_content");
-        self.movieSelectItem = document.querySelector(".movie_select_item");
-        
-        self.movieTitle = "";
-        self.movieTimes = "";
-        self.movieImg = "";
-        self.selectedTitle = "";
-        self.imgHtml = "";
-        self.infoHtml = "";
-        self.selectHtml = "";
-        self.movieSeats = "";
-        self.movieData = "";
-        self.totalSeats = "";
-    }
 
-    function bindEvent() {
-
-        // 수정 필요 -> 영화 selectbox 재선택시, 좌석 초기화 필요. 지금은 포스터만 초기화됨
-        self.movieSelectItem.addEventListener("change", function(){
-            self.imgHtml = "";                                    
-            self.movieItemLeft.innerHTML = self.imgHtml;
-
-            self.movieItemRight.style.display = "none";
-            self.btnSelect.style.display = "block";
-            self.btnSubmit.classList.remove("active");
-            self.btnReserve.classList.remove("active");
-        });
-    }
-
-    function apiTicket() {
-        // 영화 데이터 fetch로 불러옴
-        fetch('../js/movie.json')
-        .then(response => response.json())
-        .then(data => {
-            const movies = data.movies;
-            self.movieData = movies;
-        })
-    }
-    function settingMovie() {
-        apiTicket();
-        setTimeout(function(){
-            console.log(self.movieData);
-            self.movieData.forEach((movie, index) => {
-                console.log(movie, index);
-                const movieTitle = movie.title;
-                self.selectHtml += `<option value="${movieTitle}" data-index="${index}">${movieTitle}</option>`;
-            })            
-            self.mainContent.classList.add("active");
-            self.movieSelectItem.innerHTML = self.selectHtml;
-        },500)        
-    }
-    function selectTicket() {
-        apiTicket();    
-        setTimeout(() => {
-            self.selectedTitle = self.movieSelectItem.options[self.movieSelectItem.selectedIndex].value;
-
-            self.movieData.forEach((movie, index) => {
-                self.movieTimes = movie.showtimes;
-                self.movieImg = movie.img;
-                self.movieTitle = movie.title;
-                if(self.selectedTitle === self.movieTitle) {
-                    self.imgHtml += `
-                        <div class="movie_select" data-index="${index}">
-                            <div class="movie_item" >
-                                <img src="${self.movieImg}" alt="${self.movieTitle}">
-                            </div>
-                            <div class="movie_info" data-index="${index}">
-                            <section class="info">
-                                <select>
-                                    <option name="item" value="">상영 시간 선택</option>
-                                    <option name="item" value="${self.movieTimes[0]}">${self.movieTimes[0]}</option>
-                                    <option name="item" value="${self.movieTimes[1]}">${self.movieTimes[1]}</option>
-                                    <option name="item" value="${self.movieTimes[2]}">${self.movieTimes[2]}</option>
-                                </select>
-                            </section>
-                            </div>
-                        </div>`;
-                }
-            })
-            document.querySelector(".content_box").style.display = "flex";
-            self.movieItemLeft.innerHTML = self.imgHtml;
-            self.btnSelect.style.display = "none";
-            self.btnReserve.classList.add("active");
-            self.mainContent.classList.add("active");
-        }, 500);
-        
-    }    
-
-    function reserveTicket() {
-        const seat = self.seatWrap.querySelectorAll(".seat")
-        self.movieInfoList = document.querySelectorAll(".movie_info select[name='item'] option");
-        self.selectedTitle = self.movieSelectItem.options[self.movieSelectItem.selectedIndex].value;
-    
-        // 수정 필요 -> 영화 재선택시, 좌석 초기화
-        // if(seat.length > 0) {
-        //     self.infoHtml = "";
-        //     self.movieItemRight.innerHTML = self.infoHtml;            
-        // }
-        apiTicket();
-        setTimeout(() => {
-            // self.movieItemLeft.style.display = "none";
-            self.infoHtml = "";            
-            self.seatWrap.innerHTML = self.infoHtml;
-            self.movieData.forEach((movie, index) => {  
-                self.movieTitle = movie.title;                                              
-                if(self.selectedTitle === self.movieTitle) {
-                    self.totalSeats = movie.total_seats;
-                    self.movieSeats = movie.seats;
-                    for(var i = 0; i < self.totalSeats; i++) {
-                        if(i < self.movieSeats) {
-                            self.infoHtml += `<div class="seat"><input type="checkbox" name="${i}" class="seat_item" /><span class="" data-index="${i}">${i+1}</span></div>`;
-                        } else {
-                            self.infoHtml += `<div class="seat disabled"><input type="checkbox" name="${i}" class="seat_item" disabled/><span class="" data-index="${i}">${i+1}</span></div>`;
-                        }                        
-                    }
-                }
-            })
-            console.log(`"선택된 영화:" ${self.selectedTitle}, 좌석 : ${self.movieSeats},  총좌석 : ${self.totalSeats}`);
-            self.movieItemRight.style.display = "block";
-            self.seatWrap.innerHTML = self.infoHtml;
-            self.btnReserve.classList.remove("active");
-            self.btnSubmit.classList.add("active");
-        },500);
-    }
-
-    function submitTicket() {
-        const seat = self.seatWrap.querySelectorAll(".seat_item:checked");
-        const selectedSeats = Array.from(seat).map(item => item.name);
-        const selectedMovie = self.movieSelectItem.options[self.movieSelectItem.selectedIndex].value;        
-        
-        if(selectedSeats.length === 0) {
-            alert("좌석을 선택해주세요.");
-            return false;
-        } else {
-            alert(`"${selectedMovie}" 영화 / ${selectedSeats} 좌석이 예약되었습니다.`);
-            return true;
-        }
-    }
-    
-    window.onload = function() {
-        setting();
-        bindEvent();
-        settingMovie();
-    }
-</script>

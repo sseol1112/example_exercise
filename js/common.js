@@ -1,14 +1,15 @@
 (function(){
 	
-	var exampleJS = {
+    var commonJS = {
         init: function () {
             window.onload = function () {
-                exampleJS.setting();
-                exampleJS.bindEvent();
+                commonJS.setting();
+                commonJS.bindEvent();
+                
             };
         },
         setting: function () {
-            var self = this;
+            const self = this;
             self.btnOpen = document.querySelector("#btnOpen");
             self.btnClose = document.querySelector("#btnClose");
             self.btnAnswerNegative = document.querySelector("#negative");
@@ -18,10 +19,11 @@
             self.message = document.querySelector("#message");
         },
         bindEvent: function () {
-            exampleJS.bindEvtModal();
+            commonJS.bindEvtModal();
+            commonJS.openPopup();
         },
         bindEvtModal: function () {
-            var self = this; 
+            const self = this; 
 
             if(self.btnOpen!= null) {
                 self.btnOpen.addEventListener("click", function () {                
@@ -66,9 +68,20 @@
                 });
             }
         },
+        openPopup : function (popupId) {                        
+            const popup = document.getElementById(popupId);
+            if (popup) {
+                popup.style.display = "block";
+            }
+
+        },
+        closePopup : function () {
+            const self = this;
+
+        }
         
     };
 
-	exampleJS.init();
+	commonJS.init();
 
 }());
