@@ -204,23 +204,14 @@ header .logo {
 .main .left_content .movie_item img {
   width: 20rem;
   height: auto;
+  min-height: 24rem;
 }
 .main .right_content {
   display: none;
-}
-.main .right_content .seat_category {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  gap: 0.25rem;
-  padding-bottom: 0.625rem;
-}
-.main .right_content .seat_category li {
-  width: calc(20% - 0.5rem);
+  margin-top: 1.5rem;
 }
 .main .right_content .seat_wrap {
-  width: 16rem;
-  min-height: 168px;
+  width: 20rem;
   border: 1px solid #ccc;
   border-radius: 20px;
   text-align: center;
@@ -263,6 +254,24 @@ header .logo {
 
 .layer_pop {
   position: relative;
+}
+.layer_pop.alert .pop_footer:before {
+  display: none !important;
+}
+.layer_pop.alert .pop_footer .btn_wrap {
+  position: absolute;
+  right: 1rem;
+  top: 1.5rem;
+  margin-top: 0;
+}
+.layer_pop.alert .pop_footer .btn_wrap .btn_close {
+  padding: 0;
+  border: 0;
+}
+.layer_pop.alert .pop_footer .btn_wrap .btn_close::after {
+  margin-top: 0;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 .layer_pop.active .dim {
   position: fixed;

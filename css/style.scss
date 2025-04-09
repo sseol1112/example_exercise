@@ -191,25 +191,16 @@ header {
             img {
                 width: 20rem;
                 height: auto;
+                min-height: 24rem;
             }
 
         }
     }
     .right_content {
-        display: none;         
-            .seat_category {
-                display: flex;
-                justify-content: center;
-                text-align: center;
-                gap: 0.25rem;
-                padding-bottom: 0.625rem;
-                li {
-                    width: calc((100% / 5) - 0.5rem);
-                }
-            }   
+        display: none;
+        margin-top: 1.5rem;
             .seat_wrap {
-                width: 16rem;
-                min-height: 168px;
+                width: 20rem;
                 border: 1px solid #ccc;
                 border-radius: 20px;
                 text-align: center;
@@ -254,6 +245,28 @@ header {
 
 .layer_pop {
     position: relative;
+    &.alert {
+        .pop_footer {   
+            &:before {
+                display: none !important;
+            }     
+            .btn_wrap {                     
+                position:absolute;
+                right: 1rem;
+                top: 1.5rem;
+                margin-top: 0;
+                .btn_close { 
+                    padding: 0;
+                    border: 0;                   
+                    &::after {
+                        margin-top: 0;
+                        width: 1.5rem;
+                        height: 1.5rem;
+                    }
+                }
+            }
+        }
+    }
     &.active {
         .dim {
             position: fixed;
