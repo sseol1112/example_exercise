@@ -231,7 +231,7 @@
                 localStorage.removeItem("selectedTimes");
                 self.alertMessage = "예약하신 영화가 취소되었습니다.";
             } else {
-                self.alertMessage = "예약하신 영화가 없습니다. 예약 후 진행해주세요.";
+                self.alertMessage = "예약하신 영화가 없습니다. \n 예약 후 진행해주세요.";
                 // alert("예약하신 영화가 없습니다.");
             }
             movieJS.openPopup("alertPopup", "alert", self.alertMessage, self.btnText);
