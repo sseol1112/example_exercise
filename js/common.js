@@ -1,15 +1,13 @@
-(function(){
-	
+(function() {	
     var commonJS = {
         init: function () {
-            window.onload = function () {
-                commonJS.setting();
-                commonJS.bindEvent();
-                
-            };
+            var self = this;
+
+            self.setting();
+            self.bindEvent();
         },
         setting: function () {
-            const self = this;
+            var self = this;
             self.btnOpen = document.querySelector("#btnOpen");
             self.btnClose = document.querySelector("#btnClose");
             self.btnAnswerNegative = document.querySelector("#negative");
@@ -75,8 +73,15 @@
             }
 
         },
-        closePopup : function () {
-            const self = this;
+        closePopup : function (popupId) {
+            const popup = document.getElementById(popupId);
+
+            if (popup) {
+                popup.classList.remove("active");
+                popup.querySelector(".modal_layer").style.display = "none";
+            }
+
+            console.log(popupId);
 
         }
         

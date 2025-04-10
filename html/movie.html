@@ -8,52 +8,55 @@
     <link rel="stylesheet" href="../css/style.css">
     <script type="text/javascript" src="../js/swiper.min.js"></script>
     <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../js/movie.js"></script>
     <title>title</title>
 </head>
 <body>
     <div class="wrap">
-        <header>
-            <h1 class="logo"></h1>            
-            <p class="desc"></p>
-        </header>
-        <div class="main">
-            <div class="movie_form">
-                <div class="top_content">
-                    <select class="movie_select_item"></select>
-                </div>
-                <div class="content_box">
-                    <section class="left_content"></section>
-                    <section class="right_content">
-                        <div class="seat_wrap" id="seatInfo"></div>
-                    </section>
-                </div> 
-                <div class="btn_wrap">
-                    <button type="button" class="btn btn_select" onclick="selectTicket();">상영시간표 확인하기</button>
-                    <button type="button" class="btn btn_reserve" onclick="reserveTicket();">좌석 선택 하기</button>
-                    <div class="btn_submit_wrap">
-                        <button type="button" class="btn btn_submit" onclick="submitTicket(this);">예매 하기</button>
-                        <button type="button" class="btn btn_confirm" onclick="openPopup('confirmPopup','normal');reserveDetail();">예매 내역 조회</button>
+        <div class="container">
+            <header>
+                <a href="./movie.html" class="logo"><img src="../image/ic_home.svg" alt="홈" /><span class="blind">홈</span></a>
+                <p class="desc"></p>
+            </header>
+            <div class="main">
+                <div class="movie_form">
+                    <div class="top_content">
+                        <select class="movie_select_item"></select>
                     </div>
-                </div>
-            </div>           
-        </div>        
-    </div>
-    <div class="layer_pop" id="confirmPopup"> <!-- 예매 내역 조회 레이어팝업 -->
+                    <div class="content_box">
+                        <section class="left_content"></section>
+                        <section class="right_content">
+                            <div class="seat_wrap" id="seatInfo"></div>
+                        </section>
+                    </div> 
+                    <div class="btn_wrap">
+                        <button type="button" class="btn btn_select">상영시간표 확인하기</button>
+                        <button type="button" class="btn btn_reserve">좌석 선택 하기</button>
+                        <div class="btn_submit_wrap">
+                            <button type="button" class="btn btn_submit">예약 하기</button>
+                            <button type="button" class="btn btn_confirm">예약 내역 조회</button>
+                        </div>
+                    </div>
+                </div>           
+            </div>   
+        </div> <!--//container-->
+    </div> <!-- //wrap -->
+    <div class="layer_pop" id="confirmPopup"> <!-- 예약 내역 조회 레이어팝업 -->
         <div class="dim"></div>
         <div class="modal_layer">
             <div class="pop_header">
-                <h3 class="title">예매 내역 조회</h3>
+                <h3 class="title">예약 내역 조회</h3>
             </div>
             <div class="pop_body">
-                <p>✔ 예매 내역을 확인해 주세요 👀</p>
+                <p>✔ 예약 내역을 확인해 주세요 👀</p>
                 <div class="reserve_detail">
-                    예매한 항목들 조회 영역
+                    예약한 항목 조회 영역
                 </div>
             </div>
             <div class="pop_footer">
                 <div class="btn_wrap">
-                    <button type="button" class="btn btn_update">변경하기</button>
-                    <button type="button" class="btn btn_close" onclick="closePopup('confirmPopup')"><span class="blind">닫기</span></button>
+                    <button type="button" class="btn btn_cancel">취소하기</button>
+                    <button type="button" class="btn btn_close"><span class="blind">닫기</span></button>
                 </div>
             </div>
         </div>
@@ -66,255 +69,14 @@
                 <h3 class="title">🔔 alert !</h3>
             </div>
             <div class="pop_body">
-                <p class="desc"></p>                
+                <p class="desc"></p>
             </div>
             <div class="pop_footer">
                 <div class="btn_wrap">
-                    <button type="button" class="btn btn_close" onclick="closePopup('alertPopup')"><span class="blind">닫기</span></button>
+                    <button type="button" class="btn btn_close"><span class="blind">닫기</span></button>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        function setting() {
-            const self = this;
-            self.pageHeader = document.querySelector("header");
-            self.mainContent = document.querySelector(".main");
-            self.btnSelect = document.querySelector(".btn_select");
-            self.btnReserve = document.querySelector(".btn_reserve");
-            self.btnSubmitWrap = document.querySelector(".btn_submit_wrap");
-            self.seatWrap = document.querySelector(".seat_wrap");
-            self.movieItemLeft = document.querySelector(".left_content");
-            self.movieItemRight = document.querySelector(".right_content");
-            self.movieSelectItem = document.querySelector(".movie_select_item");
-            self.reserveDetailArea = document.querySelector(".reserve_detail");                        
-            
-            self.movieInfoList = "";
-            self.movieTitle = "";
-            self.movieTimes = "";
-            self.movieImg = "";
-            self.selectedTitle = "";
-            self.selectedTimes = "";            
-            self.imgHtml = "";
-            self.infoHtml = "";
-            self.selectHtml = "";
-            self.movieSeats = "";
-            self.movieData = "";
-            self.totalSeats = "";
-            self.alertMessage = "";
-        }
-
-        function bindEvent() {
-            self.movieSelectItem.addEventListener("change", function(){            
-                self.movieItemLeft.innerHTML = "";
-                self.pageHeader.querySelector(".desc").innerHTML = "";
-                self.movieItemRight.style.display = "none";
-                self.btnSelect.style.display = "block";
-                self.btnSubmitWrap.classList.remove("active");
-                self.btnReserve.classList.remove("active");
-            });
-        }
-
-        function apiTicket() {
-            // 영화 데이터 fetch로 불러옴
-            fetch('../js/movie.json')
-            .then(response => response.json())
-            .then(data => {
-                const movies = data.movies;
-                self.movieData = movies;
-            })
-        }
-        function settingMovie() {
-            apiTicket();
-            self.selectHtml += `<option value="" data-index="">상영 영화 선택</option>`;
-            setTimeout(function() {
-                self.movieData.forEach((movie, index) => {                    
-                    const movieTitle = movie.title;                
-                    self.selectHtml += `<option value="${movieTitle}" data-index="${index}">${movieTitle}</option>`;
-                })            
-                self.mainContent.classList.add("active");
-                self.movieSelectItem.innerHTML = self.selectHtml;
-            },500)        
-        }
-        function selectTicket() {
-            apiTicket();    
-            setTimeout(() => {                
-                const selectedText = self.movieSelectItem.options[self.movieSelectItem.selectedIndex].innerText;
-                self.selectedTitle = self.movieSelectItem.options[self.movieSelectItem.selectedIndex].value;
-                self.imgHtml = "";
-                self.seatWrap.innerHTML = self.imgHtml;
-                if (!!self.selectedTitle) {
-                    self.movieData.forEach((movie, index) => {
-                        self.movieTimes = movie.showtimes;
-                        self.movieImg = movie.img;
-                        self.movieTitle = movie.title;
-                        if(self.selectedTitle === self.movieTitle) {
-                            self.imgHtml += `
-                                <div class="movie_select" data-index="${index}">
-                                    <div class="movie_item">
-                                        <img src="${self.movieImg}" alt="${self.movieTitle}">
-                                    </div>
-                                    <div class="movie_info">
-                                        <section class="info">
-                                            <select>
-                                                <option name="item" value="" data-index="">상영 시간 선택</option>
-                                                <option name="item" value="${self.movieTimes[0]}" data-index="${index}">${self.movieTimes[0]}</option>
-                                                <option name="item" value="${self.movieTimes[1]}" data-index="${index}">${self.movieTimes[1]}</option>
-                                                <option name="item" value="${self.movieTimes[2]}" data-index="${index}">${self.movieTimes[2]}</option>
-                                            </select>
-                                        </section>
-                                    </div>
-                                </div>`;
-                        }
-                    })
-                    document.querySelector(".content_box").style.display = "flex";
-                    self.movieItemLeft.innerHTML = self.imgHtml;
-                    self.btnSelect.style.display = "none";
-                    self.btnReserve.classList.add("active");
-                    self.mainContent.classList.add("active");
-                } else {
-                    self.alertMessage = `${selectedText}을 해주세요`;
-                    openPopup("alertPopup", "alert", self.alertMessage);
-                }            
-            }, 500);
-            
-        }    
-
-        function reserveTicket() {            
-            const seat = self.seatWrap.querySelectorAll(".seat")                
-            apiTicket();
-            setTimeout(() => {                
-                self.movieInfoList = document.querySelector(".movie_info .info select");
-                const selectedText = self.movieInfoList.options[self.movieInfoList.selectedIndex].innerText;                
-                self.selectedTimes = self.movieInfoList.options[self.movieInfoList.selectedIndex].value;
-                self.selectedTitle = self.movieSelectItem.options[self.movieSelectItem.selectedIndex].value;
-                
-                self.infoHtml = "";
-                self.seatWrap.innerHTML = self.infoHtml;
-
-                if(!!self.selectedTimes) {
-                    self.movieData.forEach((movie, index) => {
-                        self.movieTitle = movie.title;                                              
-                        if(self.selectedTitle === self.movieTitle) {
-                            self.totalSeats = movie.total_seats;
-                            self.movieSeats = movie.seats;
-                            for(var i = 0; i < self.totalSeats; i++) {
-                                if(i < self.movieSeats) {
-                                    self.infoHtml += `<div class="seat"><input type="checkbox" name="${i + 1}" class="seat_item" /><span class="" data-index="${i}">${i+1}</span></div>`;
-                                } else {
-                                    self.infoHtml += `<div class="seat disabled"><input type="checkbox" name="${i + 1}" class="seat_item" disabled/><span class="" data-index="${i}">${i+1}</span></div>`;
-                                }
-                            }
-                        }
-                    })                    
-                    self.pageHeader.querySelector(".desc").innerHTML = `"선택된 영화:" ${self.selectedTitle}, 좌석 : ${self.movieSeats},  총좌석 : ${self.totalSeats}, 선택한 시간 : ${self.selectedTimes}`;
-                    self.movieItemRight.style.display = "block";                    
-                    self.seatWrap.innerHTML = self.infoHtml;
-                    self.btnReserve.classList.remove("active");
-                    self.btnSubmitWrap.classList.add("active");
-                } else {                    
-                    self.alertMessage = `${selectedText}을 해주세요`;
-                    openPopup("alertPopup", "alert", self.alertMessage);
-                }
-            },500);
-        }
-
-        function reserveDetail() {
-            const reserveMovie = localStorage.getItem("selectedMovie");
-            const reserveSeats = localStorage.getItem("selectedSeats");
-            const saveSelectedTime = localStorage.getItem("selectedTimes");
-            self.reserveDetailArea.innerHTML = `예약된 영화 : ${reserveMovie} / 상영 시간 ${saveSelectedTime} / 좌석 : ${reserveSeats} 번 입니다`;
-        }
-        function submitTicket(target) {
-            const seat = self.seatWrap.querySelectorAll(".seat_item:checked");
-            const selectedSeats = Array.from(seat).map(item => item.name);
-            const selectedMovie = self.movieSelectItem.options[self.movieSelectItem.selectedIndex].value;
-            const selectedTimes = self.movieInfoList.options[self.movieInfoList.selectedIndex].value;
-            const btnText = target.innerText;
-            self.alertMessage = "";
-            if(selectedSeats.length === 0) {
-                self.alertMessage = "좌석을 선택해주세요.";                                
-            } else {
-                self.alertMessage = `"${selectedMovie}" 영화 / 상영 시간 ${selectedTimes} / \n ${selectedSeats} 좌석이 예약되었습니다.`;
-                localStorage.setItem("selectedMovie", selectedMovie);
-                localStorage.setItem("selectedSeats", selectedSeats);
-                localStorage.setItem("selectedTimes", selectedTimes);
-            }
-            openPopup("alertPopup", "alert", self.alertMessage, btnText);
-        }
-
-        function openPopup (popupId, type, message, title) {
-            const popup = document.getElementById(popupId);
-            const popupTitle = popup.querySelector(".pop_header .title");
-
-            if(popup) {
-                switch(type) {
-                    case "normal" : 
-                        popup.classList.add("active");
-                        popup.querySelector(".modal_layer").style.display = "block";
-                        break;
-                    case "alert" :                         
-                        popup.classList.add("active");
-                        popup.querySelector(".modal_layer").style.display = "block";
-                        popup.querySelector(".pop_body .desc").style.textAlign = "center";
-
-                        if(title) {
-                            popupTitle.innerText = title;
-                        } else {
-                            popupTitle.innerText = "🔔 alert !";
-                        }
-                        popup.querySelector(".pop_body .desc").innerText = message;
-                        break
-                }
-                popup.focus();
-                trapFocus(popup);                
-            } else {
-                alert(`❌ error ! ${popupId}의 id값을 확인해주세요.`);
-            }
-        }
-
-        function closePopup (popupId) {
-            const popup = document.getElementById(popupId);
-
-            if(popup) {
-                popup.classList.remove("active");
-                popup.querySelector(".modal_layer").style.display = "none";
-                // popup.blur();
-            }
-        }
-        
-        function trapFocus(modal) {
-            const focusableElements = modal.querySelectorAll('button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])');
-            const firstElement = focusableElements[0];
-            const lastElement = focusableElements[focusableElements.length - 1];            
-            modal.addEventListener('keydown', function(event) {
-                if (event.key === 'Tab') {
-                    if (event.shiftKey) { // Shift + Tab
-                        if (document.activeElement === firstElement) {
-                            event.preventDefault();
-                            lastElement.focus();
-                        }
-                    } else { // Tab
-                        if (document.activeElement === lastElement) {
-                            event.preventDefault();
-                            firstElement.focus();
-                        }
-                    }
-                }
-
-                if (event.key === 'Escape') {
-                    closeModal();                    
-                }
-            });
-        }
-
-        window.onload = function() {
-            setting();
-            bindEvent();
-            settingMovie();
-        }
-    </script>
 </body>
 </html>
-

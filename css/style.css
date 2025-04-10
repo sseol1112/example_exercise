@@ -157,9 +157,29 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 }
 
 /* movie */
-header .logo {
-  font-size: 1.5rem;
-  font-weight: 700;
+.container header {
+  padding: 0;
+  margin: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.container header .logo {
+  width: 3rem;
+  height: 3rem;
+}
+.container header .logo img {
+  width: 100%;
+  height: 100%;
+}
+.container header .desc {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #000;
+  display: none;
+  margin: 0.625rem 0;
+}
+.container header .desc.active {
+  display: block;
 }
 
 .main {
@@ -234,7 +254,7 @@ header .logo {
 .btn_wrap {
   display: flex;
   justify-content: center;
-  margin-top: 12px;
+  margin: 0.75rem 0;
 }
 .btn_wrap .btn:not(:first-child) {
   margin-left: 0.625rem;
