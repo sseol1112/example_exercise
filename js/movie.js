@@ -217,8 +217,12 @@
 
             if (self.reserveMovie != null && self.reserveSeats != null && self.saveSelectedTime != null) {
                 self.reserveDetailArea.innerHTML = `예약된 영화 : ${self.reserveMovie} / 상영 시간 ${self.saveSelectedTime} / 좌석 : ${self.reserveSeats} 번 입니다`;
+                // self.btnCancel.removeAttribute("disabled");
+                self.btnCancel.classList.remove("disabled");
             } else {
                 self.reserveDetailArea.innerHTML = "예약하신 내역이 없습니다.";
+                // self.btnCancel.setAttribute("disabled", true);
+                self.btnCancel.classList.add("disabled");
             }
         },
         cancelReservationInfo: function (target) {
@@ -230,11 +234,12 @@
                 localStorage.removeItem("selectedSeats");
                 localStorage.removeItem("selectedTimes");
                 self.alertMessage = "예약하신 영화가 취소되었습니다.";
+                movieJS.openPopup("alertPopup", "alert", self.alertMessage, self.btnText);
+                location.reload();
             } else {
                 self.alertMessage = "예약하신 영화가 없습니다. \n 예약 후 진행해주세요.";
-                // alert("예약하신 영화가 없습니다.");
-            }
-            movieJS.openPopup("alertPopup", "alert", self.alertMessage, self.btnText);
+                movieJS.openPopup("alertPopup", "alert", self.alertMessage, self.btnText);
+            }            
         },
         openPopup: function (popupId, type, message, title) {
             const self = this;

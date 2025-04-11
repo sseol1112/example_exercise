@@ -33,49 +33,39 @@ select {
   margin: 0 auto;
   width: 100%;
 }
-
 .wrap .contents {
   padding: 0 1em;
 }
-
-.wrap header {
-  padding: 0.5em;
+.wrap .contents section + section {
+  margin-top: 24px;
 }
-
-.wrap header .page_title {
-  padding-bottom: 5px;
-}
-
-.contents section {
-  margin-top: 40px;
-}
-
-.contents section .title {
+.wrap .contents section .title {
   margin-bottom: 10px;
 }
-
-.contents .item_list > li:not(:last-child) {
-  border-bottom: 1px solid #ccc;
+.wrap .contents .item_list li {
+  border-top: 1px solid #ccc;
 }
-
-.contents .item_list > li a {
+.wrap .contents .item_list li a {
   display: block;
   padding: 0.5em;
 }
-
-.contents .item_list > li a:hover {
+.wrap .contents .item_list li a:hover {
   background: skyblue;
   color: #fff;
 }
-
-header {
+.wrap header {
   margin: 1em;
 }
-
-header .btn_index {
-  text-align: left;
+.wrap header .btn_index {
+  text-align-last: left;
   border: 1px solid #ccc;
   padding: 5px 10px;
+}
+.wrap header .page_title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  padding-bottom: 10px;
 }
 
 .btn {
@@ -89,6 +79,10 @@ header .btn_index {
   line-height: 21px;
   text-align: center;
   cursor: pointer;
+}
+.btn.disabled {
+  background: #f5f5f5 !important;
+  color: #555 !important;
 }
 
 /* movie */
