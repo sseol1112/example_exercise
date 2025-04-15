@@ -310,11 +310,6 @@
     window.onload = function() {
         movieJS.init();
     }
-    
-    // document.addEventListener("DOMContentLoaded", function(){
-    //     movieJS.init();
-    // });
-    
 }())
 
 
