@@ -153,7 +153,6 @@
         },
         reserveTicket: function () {
             const self = this;
-            const seat = self.seatWrap.querySelectorAll(".seat");
             movieJS.apiTicket();
             setTimeout(() => {
                 self.movieInfoList = document.querySelector(".movie_info .info select");
